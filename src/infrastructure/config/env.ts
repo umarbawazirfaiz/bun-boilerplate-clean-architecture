@@ -18,6 +18,7 @@ const schema = Type.Object({
   PORT: Type.Number({ default: 3000 }),
   NODE_ENV: Type.Enum(NodeEnv),
   LOG_LEVEL: Type.Enum(LogLevel),
+  MONGO_URI: Type.String()
 });
 
 const env = envSchema<Static<typeof schema>>({
@@ -30,7 +31,8 @@ export type Config = {
   isDevelopment: boolean,
   isProduction: boolean,
   logLevel: LogLevel,
-  port: number
+  port: number,
+  mongoUri: string
 }; 
 
 export const getConfig = (): Config => {
@@ -39,6 +41,7 @@ export const getConfig = (): Config => {
     isDevelopment: env.NODE_ENV === NodeEnv.development,
     isProduction: env.NODE_ENV === NodeEnv.production,
     logLevel: env.LOG_LEVEL,
-    port: env.PORT
+    port: env.PORT,
+    mongoUri: env.MONGO_URI
   }
 };

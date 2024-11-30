@@ -1,6 +1,7 @@
 import type { User } from "../../domain/user";
 
 export interface UserRepositoryPort {
+  findAll(): Promise<Partial<User>[]>;
   findByEmail(email: string): Promise<User | null>;
   findById(id: string): Promise<User | null>;
   create(user: Partial<User>): Promise<void>;

@@ -3,8 +3,8 @@ export interface User {
   email: string;
   name: string;
   password: string;
-  createdAt: Date;
-  createdBy: string;
-  updatedAt: Date;
-  updatedBy: string;
+  created_by: string
+  created_at: Date;
+  updated_by: string;
+  updated_at: Date;
 }
