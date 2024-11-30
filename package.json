@@ -1,0 +1,23 @@
+{
+  "name": "bun-boilerplate-clean-architecture",
+  "version": "1.0.0",
+  "description": "Fastify Boilerplate with Bun, Clean Architecture, and Best Practices",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "bun src/index.ts",
+    "start:watch": "bun --watch src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.9",
+    "env-schema": "^6.0.0",
+    "fastify": "^5.1.0",
+    "pino": "^9.5.0"
+  }
+}
