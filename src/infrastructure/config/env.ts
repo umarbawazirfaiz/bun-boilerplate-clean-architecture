@@ -9,6 +9,7 @@ enum NodeEnv {
 
 export enum LogLevel {
   debug = 'debug',
+  trace = 'trace',
   info = 'info',
   warn = 'warn',
   error = 'error',

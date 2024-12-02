@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import type { Config } from "../config";
+import type BaseLogger from "../../common/logger/base-logger";
 
 class Mongoose {
   mongoUri: string;
 
-  constructor(config: Config) {
+  constructor(config: Config, private log: BaseLogger) {
     this.mongoUri = config.mongoUri;
   }
 
@@ -12,10 +13,10 @@ class Mongoose {
     mongoose
       .connect(this.mongoUri)
       .then(() => {
-        console.log("Connected to MongoDB successfully");
+        this.log.info("[database]: Connected to MongoDB successfully");
       })
       .catch((error) => {
-        console.error("Error connecting to MongoDB:", error);
+        this.log.error("Error connecting to MongoDB:", error);
       });
   }
 }

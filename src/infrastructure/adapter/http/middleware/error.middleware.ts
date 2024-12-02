@@ -1,31 +1,28 @@
-// import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
-// import { AppError } from '../../../../common/errors/app-error';
-// import logger from '../../../logger/logger';
+import type { FastifyError, FastifyReply, FastifyRequest } from "fastify";
+import AppError from "../../../../common/errors/app-error";
 
-// export const errorHandler = (
-//   error: FastifyError, 
-//   request: FastifyRequest, 
-//   reply: FastifyReply
-// ) => {
-//   // Log the error
-//   logger.error({
-//     message: error.message,
-//     stack: error.stack,
-//     method: request.method,
-//     url: request.url,
-//   });
+export const errorMiddleware = (
+  error: FastifyError,
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const res = {
+    code: error instanceof AppError ? error.code : "30000",
+    message: error.message || "INTERNAL_SERVER_ERROR",
+    data: null,
+  };
 
-//   // Handle known application errors
-//   if (error instanceof AppError) {
-//     return reply.status(error.statusCode).send({
-//       status: 'error',
-//       message: error.message,
-//     });
-//   }
+  const startTime = request.logContext?.startTime;
+  const processTime = Date.now() - startTime!;
 
-//   // Handle unexpected errors
-//   reply.status(500).send({
-//     status: 'error',
-//     message: 'Internal Server Error',
-//   });
-// };
+  const errorInfo = {
+    message: error.message,
+    exceptionName: error.name,
+    stackTrace: error.stack,
+    causedBy: error.cause ? (error.cause as Error).message : undefined,
+  };
+
+  request.logger.error("Http request error", { errorInfo, processTime });
+
+  reply.status(error.statusCode || 500).send(res);
+};

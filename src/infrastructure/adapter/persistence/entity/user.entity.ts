@@ -1,17 +1,17 @@
 import mongoose, { Schema, model } from "mongoose";
 
-export interface UserEntity extends Document {
-  _id: string;
-  name: string;
-  email: string;
-  password: string;
-  created_by: string;
-  created_at: Date;
-  updated_by: string;
-  updated_at: Date;
+export interface UserEntity extends Partial<Document> {
+  _id?: string;
+  name?: string;
+  email?: string;
+  password?: string;
+  created_by?: string;
+  created_at?: Date;
+  updated_by?: string;
+  updated_at?: Date;
 }
 
-const userEntitySchema = new Schema<UserEntity>(
+export const userEntitySchema = new Schema<UserEntity>(
   {
     _id: mongoose.Schema.Types.ObjectId,
     name: {
@@ -22,6 +22,10 @@ const userEntitySchema = new Schema<UserEntity>(
       type: String,
       required: true,
       unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
     },
     created_at: {
       type: Date,

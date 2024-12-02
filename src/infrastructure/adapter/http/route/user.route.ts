@@ -1,23 +1,24 @@
-import type { FastifyInstance, FastifyPluginOptions } from "fastify";
+import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import type { Route } from "./base.route";
-import { UserController } from "../controller/user.controller";
-import type { UserServicePort } from "../../../../application/port/user.service.port";
+import type BaseLogger from "../../../../common/logger/base-logger";
+import type { IUserController } from "../controller/user.controller.interface";
 
 class UserRoute implements Route {
   path: string = "/users";
-  userController;
 
-  constructor(userService: UserServicePort) {
-    this.userController = UserController(userService);
-  }
+  constructor(
+    private readonly userController: IUserController,
+    log: BaseLogger
+  ) {}
 
-  // Implement the method with the required signature
-  init(
-    instance: FastifyInstance,
-    opts: FastifyPluginOptions,
-    done: (err?: Error) => void
-  ): void {
-    instance.get(`${this.path}`, this.userController.findAll);
+  init(instance: FastifyInstance, done: (err?: Error) => void): void {
+    instance.get(`${this.path}`, (req: FastifyRequest, res: FastifyReply) =>
+      this.userController.findAll(req, res)
+    );
+
+    instance.get(`${this.path}/:id`, (req: FastifyRequest, res: FastifyReply) =>
+      this.userController.getById(req, res)
+    );
 
     done();
   }

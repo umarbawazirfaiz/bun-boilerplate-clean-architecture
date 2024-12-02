@@ -4,7 +4,6 @@ export interface Route {
   path: string;
   init(
     instance: FastifyInstance,
-    opts: FastifyPluginOptions,
     done: (err?: Error) => void
   ): void;
 }
@@ -14,7 +13,6 @@ class BaseRoute implements Route {
 
   public init(
     instance: FastifyInstance,
-    opts: FastifyPluginOptions,
     done: (err?: Error) => void
   ): void {
     instance.get(`${this.path}`, this.ping);
