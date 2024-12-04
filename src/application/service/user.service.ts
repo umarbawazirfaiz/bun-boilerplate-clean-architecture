@@ -2,29 +2,30 @@ import type { UserRepositoryPort } from "../port/user.repository.port";
 import type { UserServicePort } from "../port/user.service.port";
 import type { CreateUserRequest } from "../../domain/create-user-request";
 import type { UpdateUserRequest } from "../../domain/update-user-request";
-import type { ListUserResponse } from "../../domain/list-user-reponse";
-import type { ListUserRequest } from "../../domain/list-user-request";
 import type { User } from "../../domain/user";
 import type { UserResponse } from "../../domain/user-response";
 import type BaseLogger from "../../common/logger/base-logger";
+import type { GetUserListResponse } from "src/domain/get-user-list-reponse";
+import type { GetUserListRequest } from "src/domain/get-user-list-request";
+import type { GetUserResponse } from "src/domain/get-user-response";
 
 class UserService implements UserServicePort {
   constructor(
     private readonly userRepository: UserRepositoryPort,
-    private readonly log: BaseLogger
+    private readonly log: BaseLogger,
   ) {}
 
-  async listUser({
+  async getUserListWithPaginate({
     page,
     limit,
     sortBy,
     sortType,
-  }: ListUserRequest): Promise<ListUserResponse> {
+  }): Promise<GetUserListResponse> {
     const users: Partial<User>[] = await this.userRepository.findAll(
       page,
       limit,
       sortBy,
-      sortType
+      sortType,
     );
 
     const list: Partial<UserResponse>[] = users.map((v) => {
@@ -36,18 +37,19 @@ class UserService implements UserServicePort {
       };
     });
 
-    // Count total documents
     const total = await this.userRepository.getTotalData();
 
-    const res: ListUserResponse = {
+    return {
       page: page,
       limit: limit,
       total_page: Math.ceil(total / limit),
       total,
       list: list,
     };
+  }
 
-    return res;
+  getUserDetailsById(id: string): Promise<GetUserResponse> {
+    throw new Error("Method not implemented.");
   }
 
   createUser(request: CreateUserRequest): Promise<void> {
@@ -55,6 +57,10 @@ class UserService implements UserServicePort {
   }
 
   updateUser(request: UpdateUserRequest): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
+
+  deleteUser(id: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
 }

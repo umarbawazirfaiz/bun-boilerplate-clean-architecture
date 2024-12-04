@@ -1,20 +1,14 @@
-import type { FastifyInstance, FastifyPluginOptions, FastifyReply, FastifyRequest } from "fastify";
+import type { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 
 export interface Route {
   path: string;
-  init(
-    instance: FastifyInstance,
-    done: (err?: Error) => void
-  ): void;
+  init(instance: FastifyInstance, done: (err?: Error) => void): void;
 }
 
 class BaseRoute implements Route {
   path: string = "/ping";
 
-  public init(
-    instance: FastifyInstance,
-    done: (err?: Error) => void
-  ): void {
+  public init(instance: FastifyInstance, done: (err?: Error) => void): void {
     instance.get(`${this.path}`, this.ping);
 
     done();

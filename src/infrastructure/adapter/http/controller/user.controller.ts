@@ -1,25 +1,25 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import type { UserServicePort } from "../../../../application/port/user.service.port";
-import type { ListUserRequest } from "../../../../domain/list-user-request";
-import type { ListUserResponse } from "../../../../domain/list-user-reponse";
 import { successResponse } from "../../../../domain/base-reponse";
 import type BaseLogger from "../../../../common/logger/base-logger";
 import { BadRequestError } from "../../../../common/errors/http-error";
 import type { IUserController } from "./user.controller.interface";
+import type { UserListQuery } from "./dto/user-list-query";
 
 class UserController implements IUserController {
   constructor(
     private readonly userService: UserServicePort,
-    private readonly logger: BaseLogger
+    private readonly logger: BaseLogger,
   ) {}
 
-  async findAll(req: FastifyRequest, res: FastifyReply) {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const sortBy = (req.query.sortBy as string) || "createdAt";
-    const sortType = (req.query.sortType as string) === "asc" ? "asc" : "desc";
+  async getUserListWithPaginate(req: FastifyRequest, res: FastifyReply) {
+    const query = req.query as UserListQuery;
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 10;
+    const sortBy = query.sortBy || "createdAt";
+    const sortType = query.sortType === "asc" ? "asc" : "desc";
 
-    const response: ListUserResponse = await this.userService.listUser({
+    const response = await this.userService.getUserListWithPaginate({
       page,
       limit,
       sortBy,
@@ -29,8 +29,8 @@ class UserController implements IUserController {
     res.status(200).send(successResponse(response));
   }
 
-  async getById(req: FastifyRequest, res: FastifyReply) {
-    const { id } = req.params as { id: string }; // Access path variable
+  async getUserDetailsById(req: FastifyRequest, res: FastifyReply) {
+    const { id } = req.params as { id: string };
 
     if (id == "23") {
       throw new BadRequestError();

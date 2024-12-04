@@ -3,7 +3,7 @@ export interface User {
   email?: string;
   name?: string;
   password?: string;
-  created_by?: string
+  created_by?: string;
   created_at?: Date;
   updated_by?: string;
   updated_at?: Date;

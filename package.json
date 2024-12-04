@@ -6,10 +6,18 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "start": "bun src/index.ts",
-    "start:watch": "bun --watch src/index.ts"
+    "start:watch": "bun --watch src/index.ts",
+    "lint": "eslint .",
+    "prepare": "husky && husky install"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "prettier": "3.4.2",
+    "typescript": "^5.7.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -22,5 +30,10 @@
     "mongoose": "^8.8.3",
     "pino": "^9.5.0",
     "uuid": "^11.0.3"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown",
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }

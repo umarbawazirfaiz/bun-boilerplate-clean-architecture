@@ -7,7 +7,7 @@ export type BaseResponse<T> = {
 export const createBaseResponse = <T>(
   code: string,
   message: string,
-  data: T
+  data: T,
 ): BaseResponse<T> => {
   return {
     code,
@@ -19,7 +19,7 @@ export const createBaseResponse = <T>(
 export const successResponse = <T>(
   data: T,
   code: string = "20000",
-  message: string = "SUCCESS"
+  message: string = "SUCCESS",
 ): BaseResponse<T> => {
   return {
     code,

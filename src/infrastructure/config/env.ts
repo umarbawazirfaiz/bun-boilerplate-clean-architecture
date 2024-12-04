@@ -1,25 +1,25 @@
-import { type Static, Type } from '@sinclair/typebox';
-import envSchema from 'env-schema';
+import { type Static, Type } from "@sinclair/typebox";
+import envSchema from "env-schema";
 
 enum NodeEnv {
-  development = 'development',
-  production = 'production',
-  test = 'test',
+  development = "development",
+  production = "production",
+  test = "test",
 }
 
 export enum LogLevel {
-  debug = 'debug',
-  trace = 'trace',
-  info = 'info',
-  warn = 'warn',
-  error = 'error',
+  debug = "debug",
+  trace = "trace",
+  info = "info",
+  warn = "warn",
+  error = "error",
 }
 
 const schema = Type.Object({
   PORT: Type.Number({ default: 3000 }),
   NODE_ENV: Type.Enum(NodeEnv),
   LOG_LEVEL: Type.Enum(LogLevel),
-  MONGO_URI: Type.String()
+  MONGO_URI: Type.String(),
 });
 
 const env = envSchema<Static<typeof schema>>({
@@ -28,13 +28,13 @@ const env = envSchema<Static<typeof schema>>({
 });
 
 export type Config = {
-  nodeEnv: NodeEnv,
-  isDevelopment: boolean,
-  isProduction: boolean,
-  logLevel: LogLevel,
-  port: number,
-  mongoUri: string
-}; 
+  nodeEnv: NodeEnv;
+  isDevelopment: boolean;
+  isProduction: boolean;
+  logLevel: LogLevel;
+  port: number;
+  mongoUri: string;
+};
 
 export const getConfig = (): Config => {
   return {
@@ -43,6 +43,6 @@ export const getConfig = (): Config => {
     isProduction: env.NODE_ENV === NodeEnv.production,
     logLevel: env.LOG_LEVEL,
     port: env.PORT,
-    mongoUri: env.MONGO_URI
-  }
+    mongoUri: env.MONGO_URI,
+  };
 };

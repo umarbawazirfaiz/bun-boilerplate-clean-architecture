@@ -1,4 +1,4 @@
-export type ListUserRequest = {
+export type GetUserListRequest = {
   page: number;
   limit: number;
   sortBy: string;

@@ -5,7 +5,10 @@ import type BaseLogger from "../../common/logger/base-logger";
 class Mongoose {
   mongoUri: string;
 
-  constructor(config: Config, private log: BaseLogger) {
+  constructor(
+    config: Config,
+    private log: BaseLogger,
+  ) {
     this.mongoUri = config.mongoUri;
   }
 

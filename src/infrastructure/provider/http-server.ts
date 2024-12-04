@@ -11,7 +11,10 @@ import { type Config } from "../config";
 class HttpServer {
   private app;
 
-  constructor(private config: Config, private logger: BaseLogger) {
+  constructor(
+    private config: Config,
+    private logger: BaseLogger,
+  ) {
     this.config = config;
     this.app = new App(this.config, logger);
   }

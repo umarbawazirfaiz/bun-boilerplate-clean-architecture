@@ -42,10 +42,10 @@ export const userEntitySchema = new Schema<UserEntity>(
       type: String,
     },
   },
-  { collection: "users" }
+  { collection: "users" },
 );
 
 export const UserEntityModel = model<UserEntity>(
   "UserEntity",
-  userEntitySchema
+  userEntitySchema,
 );

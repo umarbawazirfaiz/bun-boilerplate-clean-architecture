@@ -4,7 +4,7 @@ import AppError from "../../../../common/errors/app-error";
 export const errorMiddleware = (
   error: FastifyError,
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) => {
   const res = {
     code: error instanceof AppError ? error.code : "30000",

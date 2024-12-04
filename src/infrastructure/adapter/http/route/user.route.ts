@@ -8,16 +8,16 @@ class UserRoute implements Route {
 
   constructor(
     private readonly userController: IUserController,
-    log: BaseLogger
+    log: BaseLogger,
   ) {}
 
   init(instance: FastifyInstance, done: (err?: Error) => void): void {
     instance.get(`${this.path}`, (req: FastifyRequest, res: FastifyReply) =>
-      this.userController.findAll(req, res)
+      this.userController.getUserListWithPaginate(req, res),
     );
 
     instance.get(`${this.path}/:id`, (req: FastifyRequest, res: FastifyReply) =>
-      this.userController.getById(req, res)
+      this.userController.getUserDetailsById(req, res),
     );
 
     done();

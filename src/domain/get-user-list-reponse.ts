@@ -1,6 +1,6 @@
 import type { UserResponse } from "./user-response";
 
-export type ListUserResponse = {
+export type GetUserListResponse = {
   page: number;
   limit: number;
   total_page: number;

@@ -10,7 +10,7 @@ class UserRepository implements UserRepositoryPort {
     pageNumber: number,
     limitNumber: number,
     sortBy: string,
-    sortType: string
+    sortType: string,
   ): Promise<User[]> {
     const sortOrder: SortOrder = sortType.toLowerCase() === "asc" ? 1 : -1;
 

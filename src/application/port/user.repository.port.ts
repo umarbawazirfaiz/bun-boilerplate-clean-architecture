@@ -5,7 +5,7 @@ export interface UserRepositoryPort {
     pageNumber: number,
     limitNumber: number,
     sortBy: string,
-    sortType: string
+    sortType: string,
   ): Promise<User[]>;
   findByEmail(email: string): Promise<User | null>;
   findById(id: string): Promise<User | null>;

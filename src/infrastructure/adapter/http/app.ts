@@ -12,18 +12,24 @@ class App {
   private port: number;
   private serviceName: string;
 
-  constructor(config: Config, private readonly log: BaseLogger) {
+  constructor(
+    config: Config,
+    private readonly log: BaseLogger,
+  ) {
     this.app = Fastify();
     this.serviceName = "user_service";
     this.port = config.port;
   }
 
   public listen() {
-    this.app.listen({
-        port: this.port
-    }, () => {
+    this.app.listen(
+      {
+        port: this.port,
+      },
+      () => {
         this.log.info(`[server]: Server is running on port ${this.port}`);
-    });
+      },
+    );
   }
 
   public getServer(): FastifyInstance {
@@ -38,7 +44,7 @@ class App {
 
           next();
         },
-        { prefix: "/v1" }
+        { prefix: "/v1" },
       );
     });
 
@@ -51,7 +57,7 @@ class App {
         Object.entries(request.headers).map(([key, value]) => [
           key,
           String(value),
-        ])
+        ]),
       );
 
       const logContext: HttpLog = {
@@ -66,12 +72,12 @@ class App {
                 Object.entries(request.params).map(([key, value]) => [
                   key,
                   [String(value)],
-                ])
+                ]),
               )
             : undefined,
           queryString: request.query
             ? new URLSearchParams(
-                request.query as Record<string, string>
+                request.query as Record<string, string>,
               ).toString()
             : undefined,
           body: request.body || undefined,
@@ -104,7 +110,7 @@ class App {
       throw new NotFoundError();
     });
 
-    this.app.setErrorHandler(errorMiddleware)
+    this.app.setErrorHandler(errorMiddleware);
   }
 }
 
